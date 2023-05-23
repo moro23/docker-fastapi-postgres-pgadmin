@@ -7,6 +7,23 @@ services:
     build: .
     command: uvicorn app.main:app --host 0.0.0.0 
     volumes:
-      - .:/app 
+      - .:/code
     ports:
-      - 8008:8000 
+      - 8000:8000 
+  pgdatabase:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=morodb
+    volumes:
+      - "./database:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: "dpage/pgadmin4"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
